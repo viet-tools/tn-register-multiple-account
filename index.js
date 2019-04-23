@@ -5,6 +5,7 @@
 'use strict';
 
 const axios = require("axios");
+const moment = require("moment");
 const colors = require('colors');
 const readline = require('readline');
 const faker = require('faker');
@@ -12,6 +13,13 @@ const faker = require('faker');
 require('console-png').attachTo(console);
 
 faker.locale = "en";
+
+const provinces = require('./locations/provinces.json').reduce((arr, item) => {arr.push(item._id); return arr;}, []);
+const districts = require('./locations/districts.json').reduce((arr, item) => {arr.push(item._id); return arr;}, []);
+const schools = require('./locations/schools.json').reduce((arr, item) => {arr.push(item._id); return arr;}, []);
+const classids = [1, 2, 3, 4, 5];
+const class_name = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+const class_nameSt = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
 
 const rl = readline.createInterface({
 	input: process.stdin,
@@ -38,12 +46,21 @@ const getCookie = (res) => {
 
 const randomString = (length) => {
 	let text = "";
-	const possible = "abcdefghijklmnopqrstuvwxyz0123456789";
+	const possible = "abcdefghijklmnopqrstuvwxyz";
 
-	for (let i = 0; i < length; i++)
+	for (let i = 0; i < length; i++) {
 		text += possible.charAt(Math.floor(Math.random() * possible.length));
+	}
 
 	return text;
+}
+
+const randomLocation = (items) => {
+	return items[Math.floor(Math.random()*items.length)];
+};
+
+const randomDate = (start, end) => {
+	return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 }
 
 const register = async (userInfo, cookie, captcha) => {
@@ -70,12 +87,12 @@ const buildList = async (captcha, cookie, n) => {
 			username: randomString(10),
 			password: password,
 			repassword: password,
-			province_id: 1,
-			district_id: 27,
-			school_id: 26246,
-			class_id: 1,
-			class_name: 'A1',
-			birthday: '01/04/2019',
+			province_id: randomLocation(provinces),
+			district_id: randomLocation(districts),
+			school_id: randomLocation(schools),
+			class_id: randomLocation(classids),
+			class_name: `${randomLocation(class_name)}${randomLocation(class_nameSt)}`,
+			birthday: moment(randomDate(new Date(2006, 0, 1), new Date(2012, 0, 1))).format('DD/MM/YYYY')
 		}
 
 		const res = await register(info, cookie, captcha);
@@ -84,6 +101,9 @@ const buildList = async (captcha, cookie, n) => {
 			console.log(colors.cyan('User:'), colors.green(JSON.stringify(data.user)));
 		} else {
 			console.log(colors.cyan('Error:'), colors.red(data.message));
+			if (data.message === 'Mã xác nhận không đúng') {
+				process.exit(1);
+			}
 		}
 	}
 };

@@ -9,7 +9,8 @@
     "console-png": "^1.2.1",
     "faker": "^4.1.0",
     "jquery": "^3.4.0",
-    "jsdom": "^15.0.0"
+    "jsdom": "^15.0.0",
+    "moment": "^2.24.0"
   },
   "devDependencies": {},
   "scripts": {
