@@ -1,0 +1,27 @@
+{
+  "name": "tn-register-multiple-account",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "colors": "^1.3.3",
+    "console-png": "^1.2.1",
+    "faker": "^4.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/viet-tools/tn-register-multiple-account.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/viet-tools/tn-register-multiple-account/issues"
+  },
+  "homepage": "https://github.com/viet-tools/tn-register-multiple-account#readme"
+}
