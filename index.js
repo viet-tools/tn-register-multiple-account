@@ -88,6 +88,8 @@ const buildList = async (captcha, cookie, n) => {
 	}
 };
 
+const numberUser = process.env.NUMBER_USER ? parseInt(process.env.NUMBER_USER): 100;
+
 const init = async () => {
 	const res = await getCaptcha();
 	console.png(res.data);
@@ -96,7 +98,7 @@ const init = async () => {
 
 	rl.question('Enter captcha value:', (captcha) => {
 		console.log(colors.cyan('Captcha:'), colors.yellow(captcha));
-		buildList(captcha, cookie, 5);
+		buildList(captcha, cookie, numberUser);
 		rl.close();
 	});
 };
