@@ -14,7 +14,8 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "node index.js",
+    "start": "node foreverCaptcha.js",
+    "dev": "node index.js",
     "captcha": "node captcha.js",
     "no-captcha": "node noCaptcha.js",
     "forever": "node forever.js",
