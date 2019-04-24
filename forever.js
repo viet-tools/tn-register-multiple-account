@@ -30,7 +30,7 @@ const randomString = (length) => {
 	return text;
 }
 
-const randomLocation = (items) => {
+const randomArray = (items) => {
 	return items[Math.floor(Math.random() * items.length)];
 };
 
@@ -58,11 +58,11 @@ const buildList = async () => {
 		username: randomString(10),
 		password: password,
 		repassword: password,
-		province_id: randomLocation(provinces),
-		district_id: randomLocation(districts),
-		school_id: randomLocation(schools),
-		class_id: randomLocation(classids),
-		class_name: `${randomLocation(class_name)}${randomLocation(class_nameSt)}`,
+		province_id: randomArray(provinces),
+		district_id: randomArray(districts),
+		school_id: randomArray(schools),
+		class_id: randomArray(classids),
+		class_name: `${randomArray(class_name)}${randomArray(class_nameSt)}`,
 		birthday: moment(randomDate(new Date(2006, 0, 1), new Date(2012, 0, 1))).format('DD/MM/YYYY')
 	}
 
