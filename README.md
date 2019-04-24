@@ -1,5 +1,9 @@
-# tn-register-multiple-account
+# Register multiple account website https://trangnguyen.edu.vn
 Tools for register multiple account in website https://trangnguyen.edu.vn
+
+## Requirement
+
+nodejs8 or newer - support async/await
 
 ## Install package dependencies npm
 
