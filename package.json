@@ -14,7 +14,9 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "no-captcha": "node noNeedCaptcha.js",
+    "forever": "node forever.js"
   },
   "repository": {
     "type": "git",
