@@ -1,5 +1,10 @@
-# tn-register-multiple-account
-Tools for register multiple radom account in website https://trangnguyen.edu.vn
+# Register multiple account website https://trangnguyen.edu.vn
+
+Tools for register multiple random account in website https://trangnguyen.edu.vn
+
+## Requirement
+
+nodejs8 or newer - support async/await
 
 ## Install package dependencies npm
 
@@ -46,6 +51,14 @@ Or create user and save log:
 Or append to file log (recommend):
 
 `npm run forever >> forever.log`
+
+## See log realtime:
+
+`tail -f users.log`
+
+Or
+
+`tail -f forever.log`
 
 ## Enter captcha
 
