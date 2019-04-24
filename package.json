@@ -15,8 +15,11 @@
   "devDependencies": {},
   "scripts": {
     "start": "node index.js",
-    "no-captcha": "node noNeedCaptcha.js",
-    "forever": "node forever.js"
+    "captcha": "node captcha.js",
+    "no-captcha": "node noCaptcha.js",
+    "forever": "node forever.js",
+    "forever-captcha": "node foreverCaptcha.js",
+    "update-locations": "node getProvince.js && node getDistrict.js && node getSchool.js"
   },
   "repository": {
     "type": "git",

@@ -7,8 +7,10 @@
 const axios = require("axios");
 const moment = require("moment");
 const colors = require('colors');
+const readline = require('readline');
 const faker = require('faker');
-const session = require('./data/session.json');
+
+require('console-png').attachTo(console);
 
 faker.locale = "en";
 
@@ -18,6 +20,29 @@ const schools = require('./data/schools.json').reduce((arr, item) => {arr.push(i
 const classids = [1, 2, 3, 4, 5];
 const class_name = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
 const class_nameSt = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+
+const rl = readline.createInterface({
+	input: process.stdin,
+	output: process.stdout
+});
+
+const getCaptcha = async () => {
+	return await axios.get("https://trangnguyen.edu.vn/captcha.png", {
+		responseType: 'arraybuffer'
+	});
+};
+
+const getCookie = (res) => {
+	const cookies = res.headers['set-cookie'];
+	const filter = cookies.filter(cookie => {
+		return cookie.indexOf('tndata=') === 0;
+	});
+
+	if(filter.length > 0) {
+		return filter[0].split(';')[0];
+	}
+	return '';
+};
 
 const randomString = (length) => {
 	let text = "";
@@ -31,18 +56,18 @@ const randomString = (length) => {
 }
 
 const randomLocation = (items) => {
-	return items[Math.floor(Math.random() * items.length)];
+	return items[Math.floor(Math.random()*items.length)];
 };
 
 const randomDate = (start, end) => {
 	return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 }
 
-const register = async (userInfo) => {
-	const dataReq = Object.assign(userInfo, {captcha: session.captcha});
+const register = async (userInfo, cookie, captcha) => {
+	const dataReq = Object.assign(userInfo, {captcha});
 	return await axios.post('https://trangnguyen.edu.vn/user/register', dataReq, {
 			headers: {
-				Cookie: session.cookie,
+				Cookie: cookie,
 				Referer: 'https://trangnguyen.edu.vn/dang-ky',
 				'Content-Type': 'application/json',
 				Origin: 'https://trangnguyen.edu.vn',
@@ -51,7 +76,7 @@ const register = async (userInfo) => {
 	});
 };
 
-const buildList = async () => {
+const buildList = async (captcha, cookie) => {
 	const password = faker.internet.password();
 	const info = {
 		fullname: faker.name.findName(),
@@ -66,22 +91,39 @@ const buildList = async () => {
 		birthday: moment(randomDate(new Date(2006, 0, 1), new Date(2012, 0, 1))).format('DD/MM/YYYY')
 	}
 
-	const res = await register(info);
+	const res = await register(info, cookie, captcha);
 	const data = res.data;
 	if (data.error === 0) {
 		data.user.password_hash = data.user.password;
 		data.user.password = password;
 		console.log(colors.cyan('User:'), colors.green(JSON.stringify(data.user)));
+
+		setTimeout(() => {
+			buildList(captcha, cookie);
+		}, 20);
 	} else {
 		console.log(colors.cyan('Error:'), colors.red(data.message));
 		if (['Mã xác nhận không đúng', 'Đã hết phiên làm việc - hãy load lại mã xác nhận'].includes(data.message)) {
-			process.exit(1);
+			init();
+		} else {
+			setTimeout(() => {
+				buildList(captcha, cookie);
+			}, 20);
 		}
 	}
-
-	setTimeout(() => {
-		buildList();
-	}, 20);
 };
 
-buildList();
+const init = async () => {
+	const res = await getCaptcha();
+	console.png(res.data);
+
+	const cookie = getCookie(res);
+
+	rl.question('Enter captcha value:\n', (captcha) => {
+		console.log(colors.cyan('Captcha:'), colors.yellow(captcha));
+		buildList(captcha, cookie);
+		rl.close();
+	});
+};
+
+init();

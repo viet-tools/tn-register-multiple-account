@@ -30,7 +30,7 @@ const init = async () => {
 		}
 	};
 	console.log('GET province done:', arr.length);
-	fs.writeFileSync("./locations/provinces.json", JSON.stringify(arr));
+	fs.writeFileSync("./data/provinces.json", JSON.stringify(arr));
 };
 
 init();

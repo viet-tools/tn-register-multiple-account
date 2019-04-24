@@ -8,12 +8,12 @@ const axios = require("axios");
 const moment = require("moment");
 const colors = require('colors');
 const faker = require('faker');
-
+const session = require('./data/session.json');
 faker.locale = "en";
 
-const provinces = require('./locations/provinces.json').reduce((arr, item) => {arr.push(item._id); return arr;}, []);
-const districts = require('./locations/districts.json').reduce((arr, item) => {arr.push(item._id); return arr;}, []);
-const schools = require('./locations/schools.json').reduce((arr, item) => {arr.push(item._id); return arr;}, []);
+const provinces = require('./data/provinces.json').reduce((arr, item) => {arr.push(item._id); return arr;}, []);
+const districts = require('./data/districts.json').reduce((arr, item) => {arr.push(item._id); return arr;}, []);
+const schools = require('./data/schools.json').reduce((arr, item) => {arr.push(item._id); return arr;}, []);
 const classids = [1, 2, 3, 4, 5];
 const class_name = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
 const class_nameSt = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
@@ -30,7 +30,7 @@ const randomString = (length) => {
 }
 
 const randomLocation = (items) => {
-	return items[Math.floor(Math.random()*items.length)];
+	return items[Math.floor(Math.random() * items.length)];
 };
 
 const randomDate = (start, end) => {
@@ -38,10 +38,10 @@ const randomDate = (start, end) => {
 }
 
 const register = async (userInfo) => {
-	const dataReq = Object.assign(userInfo, {captcha: '639791'});
+	const dataReq = Object.assign(userInfo, {captcha: session.captcha});
 	return await axios.post('https://trangnguyen.edu.vn/user/register', dataReq, {
 			headers: {
-				Cookie: 'tndata=WpCdQt-AWBfCHheGgBOXdg.wKnxCgxVlZHB64F_zaKt69EXBpSLEJYEFYNdkrAEe54.1556074184753.3600000.DiPlpB_UbiPL1Uw5aXhrON41IgF1G8l6V1sNa9WvYqk',
+				Cookie: session.cookie,
 				Referer: 'https://trangnguyen.edu.vn/dang-ky',
 				'Content-Type': 'application/json',
 				Origin: 'https://trangnguyen.edu.vn',
@@ -77,7 +77,7 @@ const buildList = async (n) => {
 			console.log(colors.cyan('User:'), colors.green(JSON.stringify(data.user)));
 		} else {
 			console.log(colors.cyan('Error:'), colors.red(data.message));
-			if (data.message === 'Mã xác nhận không đúng') {
+			if (['Mã xác nhận không đúng', 'Đã hết phiên làm việc - hãy load lại mã xác nhận'].includes(data.message)) {
 				process.exit(1);
 			}
 		}

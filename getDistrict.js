@@ -4,7 +4,7 @@
 
 const fs = require("fs");
 const axios = require("axios");
-const provinces = require('./locations/provinces.json');
+const provinces = require('./data/provinces.json');
 
 const init = async () => {
 	let arr = [];
@@ -20,7 +20,7 @@ const init = async () => {
 		});
 	}
 	console.log('GET district done:', arr.length);
-	fs.writeFileSync("./locations/districts.json", JSON.stringify(arr));
+	fs.writeFileSync("./data/districts.json", JSON.stringify(arr));
 };
 
 init();

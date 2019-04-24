@@ -1,5 +1,5 @@
 # tn-register-multiple-account
-Tools for register multiple account in website https://trangnguyen.edu.vn
+Tools for register multiple radom account in website https://trangnguyen.edu.vn
 
 ## Install package dependencies npm
 
@@ -15,7 +15,15 @@ Or set number account you want creat, example create 100k users
 
 `NUMBER_USER=100000 npm start`
 
-### Create no need enter captcha:
+### Create forever with captcha
+
+`npm run forever-captcha`
+
+### Storage captcha
+
+`npm run captcha`
+
+### Create no need enter captcha (dependencies storage captcha):
 
 `npm run no-captcha`
 
@@ -27,7 +35,7 @@ Or append to file log (recommend):
 
 `NUMBER_USER=100000 npm run no-captcha >> users.log`
 
-### Create user forever:
+### Create user forever (dependencies storage captcha):
 
 `npm run forever`
 

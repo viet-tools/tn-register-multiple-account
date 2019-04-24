@@ -14,9 +14,9 @@ require('console-png').attachTo(console);
 
 faker.locale = "en";
 
-const provinces = require('./locations/provinces.json').reduce((arr, item) => {arr.push(item._id); return arr;}, []);
-const districts = require('./locations/districts.json').reduce((arr, item) => {arr.push(item._id); return arr;}, []);
-const schools = require('./locations/schools.json').reduce((arr, item) => {arr.push(item._id); return arr;}, []);
+const provinces = require('./data/provinces.json').reduce((arr, item) => {arr.push(item._id); return arr;}, []);
+const districts = require('./data/districts.json').reduce((arr, item) => {arr.push(item._id); return arr;}, []);
+const schools = require('./data/schools.json').reduce((arr, item) => {arr.push(item._id); return arr;}, []);
 const classids = [1, 2, 3, 4, 5];
 const class_name = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
 const class_nameSt = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
@@ -103,8 +103,8 @@ const buildList = async (captcha, cookie, n) => {
 			console.log(colors.cyan('User:'), colors.green(JSON.stringify(data.user)));
 		} else {
 			console.log(colors.cyan('Error:'), colors.red(data.message));
-			if (data.message === 'Mã xác nhận không đúng') {
-				process.exit(1);
+			if (['Mã xác nhận không đúng', 'Đã hết phiên làm việc - hãy load lại mã xác nhận'].includes(data.message)) {
+				init();
 			}
 		}
 	}
@@ -118,7 +118,7 @@ const init = async () => {
 
 	const cookie = getCookie(res);
 
-	rl.question('Enter captcha value:', (captcha) => {
+	rl.question('Enter captcha value:\n', (captcha) => {
 		console.log(colors.cyan('Captcha:'), colors.yellow(captcha));
 		buildList(captcha, cookie, numberUser);
 		rl.close();
