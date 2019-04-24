@@ -98,6 +98,8 @@ const buildList = async (captcha, cookie, n) => {
 		const res = await register(info, cookie, captcha);
 		const data = res.data;
 		if (data.error === 0) {
+			data.user.password_hash = data.user.password;
+			data.user.password = password;
 			console.log(colors.cyan('User:'), colors.green(JSON.stringify(data.user)));
 		} else {
 			console.log(colors.cyan('Error:'), colors.red(data.message));
