@@ -39,6 +39,14 @@ Or append to file log (recommend):
 
 `npm run forever >> forever.log`
 
+## See log realtime:
+
+`tail -f users.log`
+
+Or
+
+`tail -f forever.log`
+
 ## Enter captcha
 
 Please enter captcha at the console show screen
