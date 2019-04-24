@@ -4,11 +4,15 @@ Tools for register multiple random account in website https://trangnguyen.edu.vn
 
 ## Requirement
 
-nodejs8 or newer - support async/await
+nodejs v8 or newer - support async/await
 
 ## Install package dependencies npm
 
 `npm i`
+
+Or
+
+`npm install`
 
 ## Run
 
