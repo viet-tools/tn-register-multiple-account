@@ -20,6 +20,7 @@
     "no-captcha": "node noCaptcha.js",
     "forever": "node forever.js",
     "forever-captcha": "node foreverCaptcha.js",
+    "multiple-thread": "pm2 start forever.js -i max",
     "update-locations": "node getProvince.js && node getDistrict.js && node getSchool.js"
   },
   "repository": {
